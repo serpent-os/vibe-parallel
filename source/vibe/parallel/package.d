@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright © 2020-2022 Serpent OS Developers
+ * SPDX-FileCopyrightText: Copyright © 2020-2023 Serpent OS Developers
  *
  * SPDX-License-Identifier: Zlib
  */
@@ -31,7 +31,7 @@ import std.exception : assumeWontThrow;
 /**
  * Test (visual feedback) all requested coroutines are running with random sleeps
  */
-@safe private unittest
+private unittest
 {
     import std.conv : to;
 
