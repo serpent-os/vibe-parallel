@@ -38,19 +38,13 @@ import std.exception : assumeWontThrow;
     auto items = iota(0, 5_000).map!(i => i.to!string);
 
     /* Assert we CAN check out items */
-    foreach (l, idx; items.fiberParallel)
+    foreach (l, idx; items.fiberParallel(100))
     {
-        try
-        {
-            import std.random : Random, unpredictableSeed, uniform;
+        import std.random : Random, unpredictableSeed, uniform;
 
-            auto rnd = Random(unpredictableSeed);
-            imported!"vibe.core.core".sleep((cast(int)(uniform(0.0, 1.0, rnd) * 100)).msecs);
-            imported!"std.stdio".writefln!"%s: %s"(l, idx);
-        }
-        catch (Exception ex)
-        {
-        }
+        auto rnd = Random(unpredictableSeed);
+        imported!"vibe.core.core".sleep((cast(int)(uniform(0.0, 1.0, rnd) * 100)).msecs);
+        imported!"std.stdio".writefln!"%s: %s"(l, idx);
     }
 }
 
