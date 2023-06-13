@@ -3,6 +3,9 @@
 		"Serpent OS Developers"
 	],
 	"copyright": "Copyright © 2023, Serpent OS Developers",
+	"dependencies": {
+		"vibe-core": "~>2.2.0",
+	},
 	"description": "Fiber based foreach for vibe.d",
 	"license": "Zlib",
 	"name": "vibe-parallel"
