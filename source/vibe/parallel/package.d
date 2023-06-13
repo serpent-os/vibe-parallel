@@ -67,9 +67,11 @@ import std.exception : assumeWontThrow;
  *
  * Params:
  *   input = Some valid input range
+ *   maxRoutines = How many coroutines to spawn to consume the range
  * Returns: A foreach-capable type
  */
-public auto fiberParallel(Range)(Range input) if (isInputRange!Range)
+public auto fiberParallel(Range)(Range input, ulong maxRoutines = 16)
+        if (isInputRange!Range)
 {
     static struct ForeachFiber(Range)
     {
@@ -87,7 +89,6 @@ public auto fiberParallel(Range)(Range input) if (isInputRange!Range)
             /* All coroutines will pull from the channel */
             Channel!Item pumper = createChannel!Item;
 
-            enum maxRoutines = 16;
             auto routines = iota(maxRoutines).map!(i => runTask(&routineRunnable, pumper, i, dg));
 
             /* Lazy mapped, so start them */
@@ -119,7 +120,8 @@ public auto fiberParallel(Range)(Range input) if (isInputRange!Range)
         }
 
         Range data;
+        ulong maxRoutines = 16;
     }
 
-    return ForeachFiber!Range(input);
+    return ForeachFiber!Range(input, maxRoutines);
 }
