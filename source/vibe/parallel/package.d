@@ -40,7 +40,8 @@ private unittest
     enum fiberWorkers = 100;
     auto items = iota(0, tasks).map!(i => i.to!string);
 
-    writefln!"Simulating %d tasks with random time-to-completion, handled sequentially by %d fiber workers:"(tasks, fiberWorkers);
+    writefln!"Simulating %d tasks with random time-to-completion, handled sequentially by %d fiber workers:"(tasks,
+            fiberWorkers);
     writefln!"%s\t%s\t%s"("Task", "Fiber", "Task time");
     /* Assert we CAN check out items */
     foreach (l, idx; items.fiberParallel(fiberWorkers))
