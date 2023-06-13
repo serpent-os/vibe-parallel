@@ -34,17 +34,23 @@ import std.exception : assumeWontThrow;
 private unittest
 {
     import std.conv : to;
+    import std.stdio : writefln;
 
-    auto items = iota(0, 5_000).map!(i => i.to!string);
+    enum tasks = 5_000;
+    enum fiberWorkers = 100;
+    auto items = iota(0, tasks).map!(i => i.to!string);
 
+    writefln!"Simulating %d tasks with random time-to-completion, handled sequentially by %d fiber workers:"(tasks, fiberWorkers);
+    writefln!"%s\t%s\t%s"("Task", "Fiber", "Task time");
     /* Assert we CAN check out items */
-    foreach (l, idx; items.fiberParallel(100))
+    foreach (l, idx; items.fiberParallel(fiberWorkers))
     {
         import std.random : Random, unpredictableSeed, uniform;
 
         auto rnd = Random(unpredictableSeed);
-        imported!"vibe.core.core".sleep((cast(int)(uniform(0.0, 1.0, rnd) * 100)).msecs);
-        imported!"std.stdio".writefln!"%s: %s"(l, idx);
+        auto elapsed = (cast(int)(uniform(0.0, 1.0, rnd) * 100)).msecs;
+        imported!"vibe.core.core".sleep(elapsed);
+        writefln!"%s:\t%s\t%s"(l, idx, elapsed);
     }
 }
 
