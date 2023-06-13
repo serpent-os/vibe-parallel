@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/vibe-parallel
+vibe-parallel.so
+vibe-parallel.dylib
+vibe-parallel.dll
+vibe-parallel.a
+vibe-parallel.lib
+vibe-parallel-test-*
+*.exe
+*.pdb
+*.o
+*.obj
+*.lst
