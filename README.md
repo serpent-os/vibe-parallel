@@ -6,9 +6,12 @@ Highly useful for scope-controlled fetch operations and other asynchronous I/O.
 Primary purpose is for use with batched downloads in Serpent OS tooling which need
 coupling with progressbars for visual feedback.
 
+Note: This is not officially endosred by the `vibe.d` project
+
 ## Example
 
 ```d
+import vibe.parallel;
 
 auto uris = ...;
 foreach (uri, idx; uris.fiberParallel)
