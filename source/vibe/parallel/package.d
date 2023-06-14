@@ -124,7 +124,8 @@ public auto fiberParallel(Range)(Range input, ulong maxRoutines = 16)
         }
 
         Range data;
-        ulong maxRoutines = 16;
+        /* this is passed a default arg value via fiberParallel so only needs to be declared here */
+        ulong maxRoutines;
     }
 
     return ForeachFiber!Range(input, maxRoutines);
