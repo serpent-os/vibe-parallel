@@ -36,8 +36,10 @@ private unittest
     import std.conv : to;
     import std.stdio : writefln;
 
-    enum tasks = 5_000;
     enum fiberWorkers = 100;
+    enum maxTaskTime = 200; /* msecs */
+    enum tasks = 5_000;
+
     auto items = iota(0, tasks).map!(i => i.to!string);
 
     writefln!"Simulating %d tasks with random time-to-completion, handled sequentially by %d fiber workers:"(tasks,
@@ -49,9 +51,10 @@ private unittest
         import std.random : Random, unpredictableSeed, uniform;
 
         auto rnd = Random(unpredictableSeed);
-        auto elapsed = (cast(int)(uniform(0.0, 1.0, rnd) * 100)).msecs;
-        imported!"vibe.core.core".sleep(elapsed);
-        writefln!"%s:\t%s\t%s"(l, idx, elapsed);
+        auto taskTime = (cast(int)(uniform(0.0, 1.0, rnd) * maxTaskTime)).msecs;
+        /* simulated task time-to-completion */
+        imported!"vibe.core.core".sleep(taskTime);
+        writefln!"%4s:\t%3s\t%s"(l, idx, taskTime);
     }
 }
 
@@ -78,13 +81,13 @@ public auto fiberParallel(Range)(Range input, ulong maxRoutines = 16)
     {
         alias Item = ElementType!Range;
 
-        /** 
-		 * Provide foreach semantics
-		 *
-		 * Params:
-		 *   dg = Delegate to call
-		 * Returns:
-		 */
+        /**
+         * Provide foreach semantics
+         *
+         * Params:
+         *   dg = Delegate to call
+         * Returns:
+         */
         int opApply(scope int delegate(ref Item, ulong routineIndex) dg) @trusted
         {
             /* All coroutines will pull from the channel */
