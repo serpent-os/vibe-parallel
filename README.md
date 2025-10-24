@@ -1,3 +1,7 @@
+**This project is no longer active**
+
+---
+
 # vibe-parallel
 
 A simple DLang module providing `foreach` construct based on a set of fibers.
